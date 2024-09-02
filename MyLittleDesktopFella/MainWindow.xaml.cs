@@ -88,8 +88,9 @@ namespace MyLittleDesktopFella
             this.WindowState = WindowState.Minimized;
             FellaSound.Stop();
             FellaSound.Position = TimeSpan.Zero;
+            FellaRect.Visibility = Visibility.Hidden;
             MyLittleFellaRoutine.Stop();
-            MyLittleFellaRoutine.Interval = TimeSpan.FromMinutes(rN.Next(1, 121));
+            MyLittleFellaRoutine.Interval = TimeSpan.FromMinutes(rN.Next(1, 60));
             MyLittleFellaRoutine.Start();
         }
 
@@ -99,6 +100,8 @@ namespace MyLittleDesktopFella
             this.WindowState = WindowState.Maximized;
 
             FellaRectPosSet();
+
+            FellaRect.Visibility = Visibility.Visible;
 
             FellaRect.BeginAnimation(WidthProperty, FellaAnimationWidth);
             FellaRect.BeginAnimation(HeightProperty, FellaAnimationHeight);
