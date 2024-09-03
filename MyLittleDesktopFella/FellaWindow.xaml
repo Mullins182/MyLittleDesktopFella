@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyLittleDesktopFella"
         mc:Ignorable="d"
-        Title="FellaWindow" Width="800" Height="600" Background="Transparent" WindowStartupLocation="CenterScreen" WindowState="Minimized" WindowStyle="None" 
+        Title="FellaWindow" Width="800" Height="600" Background="Transparent" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" 
         AllowsTransparency="True">
     <Grid>
         <Canvas x:Name="MainCanvas" Background="Transparent"/>

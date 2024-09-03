@@ -16,8 +16,13 @@ namespace MyLittleDesktopFella
 {
     public partial class MainWindow : Window
     {
+        //private readonly FellaWindow MyLittleFella = new();
+
         private DispatcherTimer MyLittleFellaRoutine = new();
 
+        public static event EventHandler? FellaCall;
+
+        private Random rN = new();
 
         private bool iniComplete = false;
 
@@ -30,20 +35,15 @@ namespace MyLittleDesktopFella
 
         public void Initialize()
         {
-
-            // DISPATCHER-TIMER
             MyLittleFellaRoutine.Tick += MyLittleFellaRoutine_Tick;
-            MyLittleFellaRoutineConfig();
-            // DISPATCHER-TIMER END
 
+            MyLittleFellaRoutineConfig();
 
             iniComplete = true;
         }
 
         private void MyLittleFellaRoutineConfig()
         {
-            FellaSound.Stop();
-            FellaSound.Position = TimeSpan.Zero;
             MyLittleFellaRoutine.Stop();
             MyLittleFellaRoutine.Interval = TimeSpan.FromSeconds(rN.Next(5, 10));
             MyLittleFellaRoutine.Start();
@@ -51,19 +51,15 @@ namespace MyLittleDesktopFella
 
         private async void MyLittleFellaRoutine_Tick(object? sender, EventArgs e)
         {
-            FellaRectPosSet();
+            FellaWindow MyLittleFella = new();
 
-            FellaRect.BeginAnimation(WidthProperty, FellaAnimationWidth);
-            FellaRect.BeginAnimation(HeightProperty, FellaAnimationHeight);
+            MyLittleFella.Show();
 
-            await Task.Delay(animationTimerMillsec);
+            FellaCall?.Invoke(this, EventArgs.Empty);
 
-            FellaSound.Play();
-
-            await Task.Delay(750);
+            await Task.Delay(500);
 
             MyLittleFellaRoutineConfig();
         }
-
     }
 }

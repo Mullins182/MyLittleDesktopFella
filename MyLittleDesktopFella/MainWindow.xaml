@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyLittleDesktopFella"
         mc:Ignorable="d"
-        Title="My Little Desktop Fella | v.0.7 | by Mullins182 |" Width="800" Height="600" Background="Transparent" WindowStartupLocation="CenterScreen"
+        Title="My Little Desktop Fella | v.0.8 | by Mullins182 |" Width="800" Height="600" Background="Transparent" WindowStartupLocation="CenterScreen"
         WindowState="Minimized" WindowStyle="None" AllowsTransparency="True">
     <Grid>
         <Grid.ColumnDefinitions>
