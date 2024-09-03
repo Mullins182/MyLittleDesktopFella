@@ -28,24 +28,19 @@ namespace MyLittleDesktopFella
         private int imageWidth = 600;
         private int imageHeight = 500;
         private int animationTimerMillsec = 800;
-        private bool initFinished = false;
+        public static bool initFinished = false;
 
 
         public FellaWindow()
         {
             InitializeComponent();
 
-            MainWindow.FellaCall += FellaWindow_FellaCall;
-
             Init();
         }
 
         public async void FellaWindow_FellaCall(object? sender, EventArgs e)
         {
-            while (!initFinished)
-            {
-                await Task.Delay(50);
-            }
+            while (!initFinished) { await Task.Delay(50); }
 
             FellaRectPosSet();
 
@@ -67,6 +62,8 @@ namespace MyLittleDesktopFella
         private void Init()
         {
             this.Topmost = true;
+
+            MainWindow.FellaCall += FellaWindow_FellaCall;
 
             // Sound ini
             FellaSound.IsMuted = true;

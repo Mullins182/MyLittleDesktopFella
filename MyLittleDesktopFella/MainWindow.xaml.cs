@@ -57,6 +57,8 @@ namespace MyLittleDesktopFella
 
             MyLittleFella.Show();
 
+            await Task.Delay(3500);
+
             FellaCall?.Invoke(this, EventArgs.Empty);
 
             while (MyLittleFella.IsLoaded) { await Task.Delay(50); }
