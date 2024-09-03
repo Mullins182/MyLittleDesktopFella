@@ -45,7 +45,7 @@ namespace MyLittleDesktopFella
             FellaSound.Stop();
             FellaSound.Position = TimeSpan.Zero;
             MyLittleFellaRoutine.Stop();
-            MyLittleFellaRoutine.Interval = TimeSpan.FromSeconds(rN.Next(5, 15));
+            MyLittleFellaRoutine.Interval = TimeSpan.FromSeconds(rN.Next(5, 10));
             MyLittleFellaRoutine.Start();
         }
 
