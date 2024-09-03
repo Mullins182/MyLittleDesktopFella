@@ -37,8 +37,7 @@ namespace MyLittleDesktopFella
         {
             MyLittleFellaRoutine.Tick += MyLittleFellaRoutine_Tick;
 
-            ChooseAnimTimerStartLabel.Content = $"Random Fella Show-Up From: {ChooseAnimTimerStartSlider.Value} Minutes";
-            ChooseAnimTimerEndLabel.Content = $"Random Fella Show-Up Till: {ChooseAnimTimerEndSlider.Value} Minutes";
+            LabelContentsForTimeChoiceSliders(true, true);
 
             MyLittleFellaRoutineConfig(1, 2);
 
@@ -48,7 +47,7 @@ namespace MyLittleDesktopFella
         private void MyLittleFellaRoutineConfig(int x, int y)
         {
             MyLittleFellaRoutine.Stop();
-            MyLittleFellaRoutine.Interval = TimeSpan.FromMinutes(rN.Next(x, y));
+            MyLittleFellaRoutine.Interval = TimeSpan.FromMinutes(rN.Next(x, y + 1));
             MyLittleFellaRoutine.Start();
         }
 
@@ -60,16 +59,23 @@ namespace MyLittleDesktopFella
 
             FellaCall?.Invoke(this, EventArgs.Empty);
 
-            await Task.Delay(500);
+            while (MyLittleFella.IsLoaded) { await Task.Delay(50); }
 
             MyLittleFellaRoutineConfig((int)ChooseAnimTimerStartSlider.Value, (int)ChooseAnimTimerEndSlider.Value);
+        }
+
+        private void LabelContentsForTimeChoiceSliders(bool startSlider, bool endSlider)
+        {
+            if (startSlider) { ChooseAnimTimerStartLabel.Content = $"Random Fella Show-Up From: {ChooseAnimTimerStartSlider.Value} Minutes"; }
+
+            if (endSlider) { ChooseAnimTimerEndLabel.Content = $"Random Fella Show-Up Till: {ChooseAnimTimerEndSlider.Value} Minutes"; }
         }
 
         // Slider Events
         private void ChooseAnimTimerStartSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (!iniComplete) { return; }
-            ChooseAnimTimerStartLabel.Content = $"Random Fella Show-Up From: {ChooseAnimTimerStartSlider.Value} Minutes";
+            LabelContentsForTimeChoiceSliders(true, false);
             ChooseAnimTimerEndSlider.Value = ChooseAnimTimerStartSlider.Value + 1;
             ChooseAnimTimerEndSlider.Minimum = ChooseAnimTimerStartSlider.Value + 1;
             MyLittleFellaRoutineConfig((int)ChooseAnimTimerStartSlider.Value, (int)ChooseAnimTimerEndSlider.Value);
@@ -78,7 +84,7 @@ namespace MyLittleDesktopFella
         private void ChooseAnimTimerEndSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (!iniComplete) { return; }
-            ChooseAnimTimerEndLabel.Content = $"Random Fella Show-Up Till: {ChooseAnimTimerEndSlider.Value} Minutes";
+            LabelContentsForTimeChoiceSliders(false, true);
             MyLittleFellaRoutineConfig((int)ChooseAnimTimerStartSlider.Value, (int)ChooseAnimTimerEndSlider.Value);
         }
 
