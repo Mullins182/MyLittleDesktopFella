@@ -10,11 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="jpg\abstract_1920x1920.jpg" />
     <None Remove="png\fist.png" />
     <None Remove="sound\facePunch.mp3" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="jpg\abstract_1920x1920.jpg" />
     <Resource Include="png\fist.png" />
     <EmbeddedResource Include="sound\facePunch.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
