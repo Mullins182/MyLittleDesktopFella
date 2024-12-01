@@ -16,13 +16,13 @@ namespace MyLittleDesktopFella
 {
     public partial class MainWindow : Window
     {
-        //private readonly FellaWindow MyLittleFella = new();
-
         private readonly DispatcherTimer MyLittleFellaRoutine = new();
 
         public static event EventHandler? FellaCall;
 
         private readonly Random rN = new();
+
+        private MediaPlayer FellaSound = new();
 
         private bool iniComplete = false;
 
@@ -35,13 +35,27 @@ namespace MyLittleDesktopFella
 
         public void Initialize()
         {
+            this.Closing += MainWindow_Closing;
             MyLittleFellaRoutine.Tick += MyLittleFellaRoutine_Tick;
+
+            // Sound ini
+            FellaSound.IsMuted = true;
+
+            FellaSound.Open(new Uri("sound/facePunch.mp3", UriKind.Relative));
+            FellaSound.Stop();
+            FellaSound.IsMuted = false;
+            // Sound ini END
 
             LabelContentsForTimeChoiceSliders(true, true);
 
             MyLittleFellaRoutineConfig(1, 2);
 
             iniComplete = true;
+        }
+
+        private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //MyLittleFella.Close();
         }
 
         private void MyLittleFellaRoutineConfig(int x, int y)
@@ -55,22 +69,31 @@ namespace MyLittleDesktopFella
         {
             FellaWindow MyLittleFella = new();
 
-            MyLittleFella.Show();
+            await Task.Delay(2500);
 
-            await Task.Delay(3500);
+            MyLittleFella.Show();
 
             FellaCall?.Invoke(this, EventArgs.Empty);
 
-            while (MyLittleFella.IsLoaded) { await Task.Delay(50); }
+            await Task.Delay(800);
+
+            FellaSound.Play();
+
+            await Task.Delay(850);
+
+            FellaSound.Stop();
+            FellaSound.Position = TimeSpan.Zero;
+
+            //while (MyLittleFella.IsLoaded) { await Task.Delay(50); }
 
             MyLittleFellaRoutineConfig((int)ChooseAnimTimerStartSlider.Value, (int)ChooseAnimTimerEndSlider.Value);
         }
 
         private void LabelContentsForTimeChoiceSliders(bool startSlider, bool endSlider)
         {
-            if (startSlider) { ChooseAnimTimerStartLabel.Content = $"Random Fella Show-Up From: {ChooseAnimTimerStartSlider.Value} Minutes"; }
+            if (startSlider) { ChooseAnimTimerStartLabel.Content = $"Random Fella Show-Up Start \nAfter: {ChooseAnimTimerStartSlider.Value} Minutes"; }
 
-            if (endSlider) { ChooseAnimTimerEndLabel.Content = $"Random Fella Show-Up Till: {ChooseAnimTimerEndSlider.Value} Minutes"; }
+            if (endSlider) { ChooseAnimTimerEndLabel.Content = $"   Till: {ChooseAnimTimerEndSlider.Value} Minutes"; }
         }
 
         // Slider Events

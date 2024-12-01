@@ -24,12 +24,10 @@ namespace MyLittleDesktopFella
         private ImageBrush FellaImageBrush = new();
         private DoubleAnimation FellaAnimationWidth = new();
         private DoubleAnimation FellaAnimationHeight = new();
-        private MediaPlayer FellaSound = new();
         private int imageWidth = 600;
         private int imageHeight = 500;
-        private int animationTimerMillsec = 800;
         public static bool initFinished = false;
-
+        private int animationTimerMillsec = 800;
 
         public FellaWindow()
         {
@@ -47,15 +45,6 @@ namespace MyLittleDesktopFella
             FellaRect.BeginAnimation(WidthProperty, FellaAnimationWidth);
             FellaRect.BeginAnimation(HeightProperty, FellaAnimationHeight);
 
-            await Task.Delay(animationTimerMillsec);
-
-            FellaSound.Play();
-
-            await Task.Delay(850);
-
-            FellaSound.Stop();
-            FellaSound.Position = TimeSpan.Zero;
-
             this.Close();
         }
 
@@ -64,14 +53,6 @@ namespace MyLittleDesktopFella
             this.Topmost = true;
 
             MainWindow.FellaCall += FellaWindow_FellaCall;
-
-            // Sound ini
-            FellaSound.IsMuted = true;
-
-            FellaSound.Open(new Uri("sound/facePunch.mp3", UriKind.Relative));
-            FellaSound.Stop();
-            FellaSound.IsMuted = false;
-            // Sound ini END
 
             // Canvas / Canvas Elements ini
             MainCanvas.Children.Add(FellaRect);
