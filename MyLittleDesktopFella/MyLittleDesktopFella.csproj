@@ -18,7 +18,7 @@
   <ItemGroup>
     <Resource Include="jpg\abstract_1920x1920.jpg" />
     <Resource Include="png\fist.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <EmbeddedResource Include="sound\facePunch.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

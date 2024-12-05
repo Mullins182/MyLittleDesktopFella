@@ -36,6 +36,11 @@ namespace MyLittleDesktopFella
         {
             InitializeComponent();
 
+            this.WindowState = WindowState.Maximized;
+            this.WindowStyle = WindowStyle.None;
+            this.ResizeMode = ResizeMode.NoResize;
+            this.Topmost = true;
+
             Init();
         }
 
@@ -77,33 +82,19 @@ namespace MyLittleDesktopFella
             MainWindow.FellaCall += FellaWindow_FellaCall;
 
             // Canvas / Canvas Elements ini
-            MainCanvas.Width = 800;
-            MainCanvas.Height = 600;
+            MainCanvas.Width = SystemParameters.PrimaryScreenWidth;
+            MainCanvas.Height = SystemParameters.PrimaryScreenHeight;
             MainCanvas.Children.Add(FellaRect);
-            MainCanvas.Background = Brushes.Transparent;
+            //MainCanvas.Background = Brushes.Transparent;
             FellaRect.Width = 0;
             FellaRect.Height = 0;
 
 
-            //FellaImage.BeginInit();
-            //FellaImage.UriSource = new Uri("pack://application:,,,/png/fist.png");
-            //FellaImage.DownloadCompleted += (s, e) => {
-            //    FellaImageBrush.ImageSource = FellaImage;
-            //    FellaRect.Fill = FellaImageBrush;
-            //};            
-            //FellaImage.EndInit();
-
             FellaImage.BeginInit();
-            FellaImage.UriSource = new Uri("pack://application:,,,/MyLittleDesktopFella;component/png/fist.png", UriKind.Absolute);
-            FellaImage.DownloadCompleted += (s, e) => {
-                FellaImageBrush.ImageSource = FellaImage;
-                FellaRect.Fill = FellaImageBrush;
-                initFinished = true;
-            };
+            FellaImage.UriSource = new Uri("pack://application:,,,/png/fist.png");
+            FellaImageBrush.ImageSource = FellaImage;
+            FellaRect.Fill = FellaImageBrush;
             FellaImage.EndInit();
-
-            //FellaRect.Fill = FellaImageBrush;
-            // Canvas / Canvas Elements ini
 
             // DOUBLE ANIMATIONS
             FellaAnimationWidth.Duration = TimeSpan.FromMilliseconds(animationTimerMillsec);
@@ -122,15 +113,14 @@ namespace MyLittleDesktopFella
 
         private void FellaRectPosSet()
         {
-            int fWidth = (int)(MainCanvas.Width - FellaImage.Width);
-            int fHeight = (int)(MainCanvas.Height - FellaImage.Height);
+            int fellaWidthMax = (int)(MainCanvas.Width - FellaImage.Width);
+            int fellaHeightMax = (int)(MainCanvas.Height - FellaImage.Height);
 
-            //Canvas.SetLeft(FellaRect, rN.Next(0, fWidth));
-            //Canvas.SetTop(FellaRect, rN.Next(0, fHeight));
+            Canvas.SetLeft(FellaRect, rN.Next(0, fellaWidthMax));
+            Canvas.SetTop(FellaRect, rN.Next(0, fellaHeightMax));
 
-            Canvas.SetLeft(FellaRect, 10);
-            Canvas.SetTop(FellaRect, 10);
-
+            //Canvas.SetLeft(FellaRect, 10);
+            //Canvas.SetTop(FellaRect, 10);
         }
     }
 }
