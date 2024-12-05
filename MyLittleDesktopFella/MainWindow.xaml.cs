@@ -61,7 +61,8 @@ namespace MyLittleDesktopFella
         private void MyLittleFellaRoutineConfig(int x, int y)
         {
             MyLittleFellaRoutine.Stop();
-            MyLittleFellaRoutine.Interval = TimeSpan.FromMinutes(rN.Next(x, y + 1));
+            //MyLittleFellaRoutine.Interval = TimeSpan.FromMinutes(rN.Next(x, y + 1));
+            MyLittleFellaRoutine.Interval = TimeSpan.FromSeconds(rN.Next(5, 7));
             MyLittleFellaRoutine.Start();
         }
 
