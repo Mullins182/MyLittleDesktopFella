@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyLittleDesktopFella"
         mc:Ignorable="d"
-        Title="My Little Desktop Fella | v 0.9 | by Mullins182 |" Width="500" Height="500" WindowStartupLocation="CenterScreen"
+        Title="My Little Desktop Fella | v 1.0 | by Mullins182 |" Width="500" Height="500" WindowStartupLocation="CenterScreen"
         WindowState="Normal" WindowStyle="SingleBorderWindow" AllowsTransparency="False" MinWidth="500" MinHeight="500">
     <Window.Background>
         <ImageBrush ImageSource="jpg/abstract_1920x1920.jpg"/>

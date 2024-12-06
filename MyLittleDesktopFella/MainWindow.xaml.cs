@@ -62,15 +62,12 @@ namespace MyLittleDesktopFella
         {
             MyLittleFellaRoutine.Stop();
             MyLittleFellaRoutine.Interval = TimeSpan.FromMinutes(rN.Next(x, y + 1));
-            //MyLittleFellaRoutine.Interval = TimeSpan.FromSeconds(rN.Next(5, 7));
             MyLittleFellaRoutine.Start();
         }
 
         private async void MyLittleFellaRoutine_Tick(object? sender, EventArgs e)
         {
             FellaWindow MyLittleFella = new();
-
-            //await Task.Delay(2500);
 
             MyLittleFella.Show();
 
@@ -92,9 +89,9 @@ namespace MyLittleDesktopFella
 
         private void LabelContentsForTimeChoiceSliders(bool startSlider, bool endSlider)
         {
-            if (startSlider) { ChooseAnimTimerStartLabel.Content = $"Random Fella Show-Up Start \nAfter: {ChooseAnimTimerStartSlider.Value} Minutes"; }
+            if (startSlider) { ChooseAnimTimerStartLabel.Content = $"Random Fella Show-Up Starts \nFrom => {ChooseAnimTimerStartSlider.Value} Minute(s)"; }
 
-            if (endSlider) { ChooseAnimTimerEndLabel.Content = $"   Till: {ChooseAnimTimerEndSlider.Value} Minutes"; }
+            if (endSlider) { ChooseAnimTimerEndLabel.Content = $"    To => {ChooseAnimTimerEndSlider.Value} Minutes"; }
         }
 
         // Slider Events

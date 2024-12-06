@@ -91,7 +91,7 @@ namespace MyLittleDesktopFella
 
 
             FellaImage.BeginInit();
-            FellaImage.UriSource = new Uri("pack://application:,,,/png/fist.png");
+            FellaImage.UriSource = new Uri("pack://application:,,,/png/fist_colorEdit.png");
             FellaImageBrush.ImageSource = FellaImage;
             FellaRect.Fill = FellaImageBrush;
             FellaImage.EndInit();
