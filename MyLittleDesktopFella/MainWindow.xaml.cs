@@ -16,25 +16,15 @@ namespace MyLittleDesktopFella
 {
     public partial class MainWindow : Window
     {
+        private readonly DispatcherTimer MyLittleFellaRoutine = new();
+
+        public static event EventHandler? FellaCall;
+
+        private readonly Random rN = new();
+
+        private MediaPlayer FellaSound = new();
+
         private bool iniComplete = false;
-
-        private int imageWidth = 600;
-        private int imageHeight = 500;
-        private int animationTimerMillsec = 800;
-
-        private Random rN = new();
-
-        private Canvas MainCanvas = new();
-        private Rectangle FellaRect = new();
-        private BitmapImage FellaImage = new();
-        private ImageBrush FellaImageBrush = new();
-
-        private DispatcherTimer MyLittleFellaRoutine = new();
-
-        private DoubleAnimation FellaAnimationWidth = new();
-        private DoubleAnimation FellaAnimationHeight = new();
-
-        public MediaPlayer FellaSound = new();
 
         public MainWindow()
         {
@@ -43,82 +33,84 @@ namespace MyLittleDesktopFella
             Initialize();
         }
 
-        public async void Initialize()
+        public void Initialize()
         {
-            FellaSound.IsMuted = true;
+            this.Closing += MainWindow_Closing;
+            MyLittleFellaRoutine.Tick += MyLittleFellaRoutine_Tick;
 
-            await Task.Delay(750);
+            // Sound ini
+            FellaSound.IsMuted = true;
 
             FellaSound.Open(new Uri("sound/facePunch.mp3", UriKind.Relative));
             FellaSound.Stop();
             FellaSound.IsMuted = false;
+            // Sound ini END
 
-            MainGrid.Children.Add(MainCanvas);
-            MainCanvas.Children.Add(FellaRect);
-            MainCanvas.Background = Brushes.Transparent;
-            FellaRect.Width = 0;
-            FellaRect.Height = 0;
-            FellaImage.BeginInit();
-            FellaImage.UriSource = new Uri("pack://application:,,,/png/fist.png");
-            FellaImage.EndInit();
-            FellaImageBrush.ImageSource = FellaImage;
-            FellaRect.Fill = FellaImageBrush;
+            LabelContentsForTimeChoiceSliders(true, true);
 
-            // DISPATCHER-TIMER
-            MyLittleFellaRoutine.Tick += MyLittleFellaRoutine_Tick;
-            MyLittleFellaRoutineConfig();
-            // DISPATCHER-TIMER END
+            MyLittleFellaRoutineConfig(1, 2);
 
-            // DOUBLE ANIMATIONS
-            FellaAnimationWidth.Duration = TimeSpan.FromMilliseconds(animationTimerMillsec);
-            //FellaAnimationWidth.AutoReverse = true;
-            FellaAnimationWidth.From = 0;
-            FellaAnimationWidth.To = imageWidth;
-
-            FellaAnimationHeight.Duration = TimeSpan.FromMilliseconds(animationTimerMillsec);
-            //FellaAnimationHeight.AutoReverse = true;
-            FellaAnimationHeight.From = 0;
-            FellaAnimationHeight.To = imageHeight;
-            // DOUBLE ANIMATION END
             iniComplete = true;
         }
 
-        private void MyLittleFellaRoutineConfig()
+        private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
         {
-            this.WindowState = WindowState.Minimized;
-            FellaSound.Stop();
-            FellaSound.Position = TimeSpan.Zero;
-            FellaRect.Visibility = Visibility.Hidden;
+            //MyLittleFella.Close();
+        }
+
+        private void MyLittleFellaRoutineConfig(int x, int y)
+        {
             MyLittleFellaRoutine.Stop();
-            MyLittleFellaRoutine.Interval = TimeSpan.FromMinutes(rN.Next(1, 60));
+            MyLittleFellaRoutine.Interval = TimeSpan.FromMinutes(rN.Next(x, y + 1));
             MyLittleFellaRoutine.Start();
         }
 
         private async void MyLittleFellaRoutine_Tick(object? sender, EventArgs e)
         {
-            //this.Topmost = true;
-            this.WindowState = WindowState.Maximized;
+            FellaWindow MyLittleFella = new();
 
-            FellaRectPosSet();
+            MyLittleFella.Show();
 
-            FellaRect.Visibility = Visibility.Visible;
+            FellaCall?.Invoke(this, EventArgs.Empty);
 
-            FellaRect.BeginAnimation(WidthProperty, FellaAnimationWidth);
-            FellaRect.BeginAnimation(HeightProperty, FellaAnimationHeight);
-
-            await Task.Delay(animationTimerMillsec);
+            await Task.Delay(800);
 
             FellaSound.Play();
 
-            await Task.Delay(750);
+            await Task.Delay(850);
 
-            MyLittleFellaRoutineConfig();
+            FellaSound.Stop();
+            FellaSound.Position = TimeSpan.Zero;
+
+            //while (MyLittleFella.IsLoaded) { await Task.Delay(50); }
+
+            MyLittleFellaRoutineConfig((int)ChooseAnimTimerStartSlider.Value, (int)ChooseAnimTimerEndSlider.Value);
         }
 
-        private void FellaRectPosSet()
+        private void LabelContentsForTimeChoiceSliders(bool startSlider, bool endSlider)
         {
-            Canvas.SetTop(FellaRect, rN.Next(0, (int)MainCanvas.ActualHeight - imageHeight));
-            Canvas.SetLeft(FellaRect, rN.Next(0, (int)MainCanvas.ActualWidth - imageWidth));
+            if (startSlider) { ChooseAnimTimerStartLabel.Content = $"Random Fella Show-Up Starts \nFrom => {ChooseAnimTimerStartSlider.Value} Minute(s)"; }
+
+            if (endSlider) { ChooseAnimTimerEndLabel.Content = $"    To => {ChooseAnimTimerEndSlider.Value} Minutes"; }
         }
+
+        // Slider Events
+        private void ChooseAnimTimerStartSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!iniComplete) { return; }
+            LabelContentsForTimeChoiceSliders(true, false);
+            ChooseAnimTimerEndSlider.Value = ChooseAnimTimerStartSlider.Value + 1;
+            ChooseAnimTimerEndSlider.Minimum = ChooseAnimTimerStartSlider.Value + 1;
+            MyLittleFellaRoutineConfig((int)ChooseAnimTimerStartSlider.Value, (int)ChooseAnimTimerEndSlider.Value);
+        }
+
+        private void ChooseAnimTimerEndSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!iniComplete) { return; }
+            LabelContentsForTimeChoiceSliders(false, true);
+            MyLittleFellaRoutineConfig((int)ChooseAnimTimerStartSlider.Value, (int)ChooseAnimTimerEndSlider.Value);
+        }
+
+        // Slider Events END !!!
     }
 }
